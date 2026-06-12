@@ -1,1 +1,1 @@
-Hypnic Jerk Animation
+Hypnic Jerk Animation - Force Trigger
