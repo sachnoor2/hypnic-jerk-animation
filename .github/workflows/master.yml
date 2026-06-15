@@ -28,7 +28,7 @@ jobs:
       - name: Render Video
         run: |
           mkdir -p out
-          npx remotion render --log=info HypnicJerk out/HypnicJerk_FULL.mp4 --concurrent-rendering=false
+          npx remotion render --log=info HypnicJerk out/HypnicJerk_FULL.mp4 2>&1 | tee render.log || true
         env:
           REMOTION_ALLOW_EVAL: true
 
