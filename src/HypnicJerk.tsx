@@ -45,8 +45,25 @@ const sr = (i: number) => {
   return x - Math.floor(x);
 };
 
+/**
+ * Audio configuration for each scene
+ * Maps scene key to its audio timing and file
+ */
+const SCENE_AUDIO: Array<{startFrame: number; endFrame: number; id: string}> = [
+  { startFrame: T.S01_S, endFrame: T.S01_E, id: 's01' },
+  { startFrame: T.S02_S, endFrame: T.S02_E, id: 's02' },
+  { startFrame: T.S03_S, endFrame: T.S03_E, id: 's03' },
+  { startFrame: T.S04_S, endFrame: T.S04_E, id: 's04' },
+  { startFrame: T.S05_S, endFrame: T.S05_E, id: 's05' },
+  { startFrame: T.S06_S, endFrame: T.S06_E, id: 's06' },
+  { startFrame: T.S07_S, endFrame: T.S07_E, id: 's07' },
+];
+
 export const HypnicJerk: React.FC = () => {
   const frame = useCurrentFrame();
+
+  // Find active audio segment(s) for current frame
+  const activeAudio = SCENE_AUDIO.filter(a => frame >= a.startFrame && frame <= a.endFrame);
 
   return (
     <AbsoluteFill style={{ backgroundColor: BG, overflow: 'hidden' }}>
@@ -72,11 +89,14 @@ export const HypnicJerk: React.FC = () => {
       {/* Subtitles Overlay */}
       <Subtitles frame={frame} />
 
-      {/* Audio Segments */}
-      {Object.keys(T).filter(k => k.endsWith('_S') && k !== 'TOTAL').map((key, i) => {
-        const id = `s0${i + 1}`;
-        return <Audio key={id} src={staticFile(`audio/segments/${id}.mp3`)} startFrom={0} />;
-      })}
+      {/* Audio Segments - only load active ones */}
+      {activeAudio.map(audio => (
+        <Audio
+          key={audio.id}
+          src={staticFile(`audio/segments/${audio.id}.mp3`)}
+          startFrom={0}
+        />
+      ))}
     </AbsoluteFill>
   );
 };
