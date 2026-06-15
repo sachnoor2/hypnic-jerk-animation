@@ -25,8 +25,7 @@ jobs:
 
       - name: Render Video
         run: |
-          mkdir -p out
-          npx remotion render src/index.ts HypnicJerk out/HypnicJerk_FINAL.mp4
+          npm run build
         env:
           REMOTION_ALLOW_EVAL: true
 
