@@ -1,4 +1,4 @@
-import { AbsoluteFill, useCurrentFrame, spring, interpolate, Audio, staticFile } from 'remotion';
+import { AbsoluteFill, useCurrentFrame, spring, interpolate } from 'remotion';
 import React from 'react';
 
 // ═══════════════════════════════════════════════════════════════
@@ -875,9 +875,9 @@ const SceneOutro: React.FC<{ frame: number }> = ({ frame }) => {
 };
 
 // ═══════════════════════════════════════════════════════════════
-//  ROOT — HypnicJerk
+//  ROOT — AnimationScene
 // ═══════════════════════════════════════════════════════════════
-export const HypnicJerk: React.FC = () => {
+export const AnimationScene: React.FC = () => {
   const frame     = useCurrentFrame();
   const { dx, dy } = shake(frame);
 
@@ -891,8 +891,6 @@ export const HypnicJerk: React.FC = () => {
       >
         <Defs/>
         <Background frame={frame}/>
-
-        <Audio src={staticFile("audio.mp3")} />
 
         {/* Scenes render in Z order */}
         <SceneHook      frame={frame}/>
@@ -909,3 +907,21 @@ export const HypnicJerk: React.FC = () => {
     </AbsoluteFill>
   );
 };
+
+/*
+  ROOT.TSX COMPOSITION SETTINGS
+  ──────────────────────────────
+  import { Composition } from 'remotion';
+  import { AnimationScene } from './HypnicJerk';
+
+  export const RemotionRoot: React.FC = () => (
+    <Composition
+      id="HypnicJerk"
+      component={AnimationScene}
+      durationInFrames={2700}
+      fps={60}
+      width={1080}
+      height={1920}
+    />
+  );
+*/
