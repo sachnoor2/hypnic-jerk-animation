@@ -1,0 +1,18 @@
+name: Download Assets
+on: [workflow_dispatch]
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download audio
+        run: |
+          mkdir -p public
+          curl -L "https://drive.google.com/uc?export=download&id=1L39yx0sNJi3X-eE1KiR6OnXuB6nYNQVz" -o public/audio.mp3
+      - name: Commit and push
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add public/audio.mp3
+          git commit -m "Add audio.mp3 from Google Drive"
+          git push
