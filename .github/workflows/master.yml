@@ -21,12 +21,14 @@ jobs:
           sudo apt-get install -y ffmpeg
 
       - name: Install Node Deps
-        run: npm install
+        run: |
+          npm install
+          ls -la public/audio/segments/
 
       - name: Render Video
         run: |
           mkdir -p out
-          npx remotion render --log=verbose HypnicJerk out/HypnicJerk_FULL.mp4
+          npx remotion render --log=info HypnicJerk out/HypnicJerk_FULL.mp4 --concurrent-rendering=false
         env:
           REMOTION_ALLOW_EVAL: true
 
