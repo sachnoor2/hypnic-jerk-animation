@@ -4,7 +4,7 @@
   "description": "Hindi Science Animation — Hypnic Jerk | Remotion + ElevenLabs",
   "scripts": {
     "start": "remotion studio",
-    "build": "remotion render HypnicJerk out/HypnicJerk_FULL.mp4",
+    "build": "npx remotion render --comp-name=HypnicJerk out/HypnicJerk_FULL.mp4",
     "render:chunks": "node scripts/render_all_chunks.mjs",
     "preview": "remotion preview HypnicJerk",
     "typecheck": "tsc --noEmit"

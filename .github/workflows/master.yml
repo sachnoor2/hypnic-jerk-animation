@@ -34,7 +34,7 @@ jobs:
         if: always()
         with:
           name: final-video
-          path: out/HypnicJerk_FINAL.mp4
+          path: out/
           if-no-files-found: ignore
         continue-on-error: true
 
