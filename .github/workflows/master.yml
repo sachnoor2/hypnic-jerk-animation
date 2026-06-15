@@ -1,6 +1,9 @@
 name: 'Render Animation'
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -20,30 +23,24 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y ffmpeg
 
+      - name: Download Audio
+        run: |
+          mkdir -p public
+          curl -L -o public/audio.mp3 https://share.zapia.com/orlqrrzsfiew535n5omb99
+
       - name: Install Node Deps
         run: |
           npm install
-          ls -la public/audio/segments/
 
       - name: Render Video
         run: |
           mkdir -p out
-          npx remotion render --log=info HypnicJerk out/HypnicJerk_FULL.mp4 2>&1 | tee render.log || true
+          npx remotion render --log=info HypnicJerk out/hypnic_jerk_final.mp4
         env:
           REMOTION_ALLOW_EVAL: true
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
-        if: always()
         with:
           name: final-video
-          path: out/
-          if-no-files-found: ignore
-        continue-on-error: true
-
-      - name: Upload Logs on Failure
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: render-logs
-          path: .remotion/
+          path: out/hypnic_jerk_final.mp4
