@@ -25,7 +25,8 @@ jobs:
 
       - name: Render Video
         run: |
-          npm run build
+          mkdir -p out
+          npx remotion render --log=verbose HypnicJerk out/HypnicJerk_FULL.mp4
         env:
           REMOTION_ALLOW_EVAL: true
 
