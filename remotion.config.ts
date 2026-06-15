@@ -1,4 +1,5 @@
 import { Config } from '@remotion/cli';
 
-Config.getConfig().setOutputFormat('mp4');
-Config.getConfig().setCodec('h264');
+Config.setCodec('h264');
+Config.setOutputFormat('mp4');
+Config.setCrf(18);
