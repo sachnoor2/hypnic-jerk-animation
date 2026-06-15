@@ -1,11 +1,11 @@
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame, interpolate, spring, Audio, staticFile } from 'remotion';
 
-// ═══════════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════
 //  HYPNIC JERK — "Why do you feel like you're falling in your sleep?"
 //  Format : 1080 × 1920 portrait · 60 fps · 45 s (2700 frames)
 //  Style  : Zack D. Films / Advanced Physics
-// ═══════════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════
 
 const W = 1080, H = 1920, CX = 540, CY = 960, FPS = 60;
 
@@ -30,7 +30,7 @@ const SUBS = [
   { f: 10,   t: 470,  h: 'क्या आपके साथ कभी ऐसा हुआ है?', r: 'Kya aapke saath kabhi aisa hua hai?', s: 'n' },
   { f: 80,   t: 470,  h: 'कि आप सोने वाले हों और अचानक गिर रहे हों?', r: 'Ki aap sone waale hon aur achanak gir rahe hon?', s: 'n' },
   { f: 490,  t: 750,  h: "इसे 'Hypnic Jerk' कहते हैं।", r: "Isse 'Hypnic Jerk' kehte hain.", s: 'n' },
-  { f: 760,  t: 1010, h: 'जब शरीर रिलैक्स होता है, तो मसल्स ढीली पड़ती हैं।', r: 'Jab shareer relax hota hai, toh muscles dheeli padti hain.', s: 'n' },
+  { f: 760,  t: 1010, h: 'जब शरीर रिलैक्स होता है, तो मसल्स ढीली पड़ती हैं।', r: 'Jab shareer relax hota hai, toh muscles dhili padti hain.', s: 'n' },
   { f: 1030, t: 1310, h: 'लेकिन ब्रेन इसे "Falling" समझ लेता है।', r: 'Lekin brain isse "Falling" samajh leta hai.', s: 'n' },
   { f: 1330, t: 1600, h: 'ब्रेन को लगता है कि आप बैलेंस खो रहे हैं।', r: 'Brain ko lagta hai ki aap balance kho rahe hain.', s: 'n' },
   { f: 1610, t: 1910, h: 'इसलिए वो एक "Electric Shock" भेजता है।', r: 'Isliye wo ek "Electric Shock" bhejta hai.', s: 'n' },
@@ -89,7 +89,7 @@ const Subtitles: React.FC<{ frame: number }> = ({ frame }) => {
   const spr = spring({ frame: frame - sub.f, fps: FPS, config: { damping: 12 } });
 
   return (
-    <AbsoluteFill style={{ top: H * 0.75, alignItems: 'center' }}>
+    <AbsoluteFill style={{ top: H * 0.75, alignItems: 'center', justifyContent: 'center' }}>
       <div style={{
         transform: `scale(${spr})`,
         backgroundColor: 'rgba(0,0,0,0.6)',
@@ -117,9 +117,11 @@ const SceneHook: React.FC<{ frame: number }> = ({ frame }) => {
 
   return (
     <AbsoluteFill style={{ transform: `translate(${sr(frame)*shake}px, ${sr(frame+1)*shake + fall}px)` }}>
-       <rect x={CX-200} y={CY-300} width={400} height={600} fill={WHITE} opacity={0.2} />
-       <text x={CX} y={CY} textAnchor="middle" fontSize={60} fill={WHITE}>SLEEPING...</text>
-       {frame > 400 && <text x={CX} y={CY + 150} textAnchor="middle" fontSize={100} fill={RED} fontWeight="bold">FALLING!!</text>}
+      <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{ position: 'absolute' }}>
+        <rect x={CX-200} y={CY-300} width={400} height={600} fill={WHITE} opacity={0.2} />
+        <text x={CX} y={CY} textAnchor="middle" fontSize={60} fill={WHITE}>SLEEPING...</text>
+        {frame > 400 && <text x={CX} y={CY + 150} textAnchor="middle" fontSize={100} fill={RED} fontWeight="bold">FALLING!!</text>}
+      </svg>
     </AbsoluteFill>
   );
 };
@@ -131,15 +133,17 @@ const SceneMechanism: React.FC<{ frame: number }> = ({ frame }) => {
   
   return (
     <AbsoluteFill>
-      <circle cx={CX} cy={CY-200} r={150} fill={GOLD} opacity={0.3} />
-      <text x={CX} y={CY+200} textAnchor="middle" fontSize={50} fill={WHITE}>MUSCLES RELAXING...</text>
-      <rect x={CX-150} y={CY+250} width={300} height={40} fill={TEAL} transform={`scaleX(${relax})`} />
-      
-      {lf > 500 && (
-        <g transform={`translate(${CX}, ${CY-200})`}>
-           <text x={0} y={0} textAnchor="middle" fontSize={80} fill={RED}>CONFUSED!</text>
-        </g>
-      )}
+      <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{ position: 'absolute' }}>
+        <circle cx={CX} cy={CY-200} r={150} fill={GOLD} opacity={0.3} />
+        <text x={CX} y={CY+200} textAnchor="middle" fontSize={50} fill={WHITE}>MUSCLES RELAXING...</text>
+        <rect x={CX-150} y={CY+250} width={300} height={40} fill={TEAL} transform={`scaleX(${relax})`} />
+        
+        {lf > 500 && (
+          <g transform={`translate(${CX}, ${CY-200})`}>
+            <text x={0} y={0} textAnchor="middle" fontSize={80} fill={RED}>CONFUSED!</text>
+          </g>
+        )}
+      </svg>
     </AbsoluteFill>
   );
 };
@@ -151,13 +155,15 @@ const SceneShock: React.FC<{ frame: number }> = ({ frame }) => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: shock > 0.5 ? '#222' : BG }}>
-       <text x={CX} y={CY} textAnchor="middle" fontSize={120} fill={GOLD} fontWeight="bold" 
-             style={{ transform: `scale(${1 + sr(frame)*0.5})` }}>
-         ELECTRIC SHOCK!
-       </text>
-       {[...Array(10)].map((_, i) => (
-         <line key={i} x1={sr(i)*W} y1={0} x2={sr(i+1)*W} y2={H} stroke={GOLD} strokeWidth={5} opacity={shock} />
-       ))}
+      <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{ position: 'absolute' }}>
+        <text x={CX} y={CY} textAnchor="middle" fontSize={120} fill={GOLD} fontWeight="bold" 
+              style={{ transform: `scale(${1 + sr(frame)*0.5})` }}>
+          ELECTRIC SHOCK!
+        </text>
+        {[...Array(10)].map((_, i) => (
+          <line key={i} x1={sr(i)*W} y1={0} x2={sr(i+1)*W} y2={H} stroke={GOLD} strokeWidth={5} opacity={shock} />
+        ))}
+      </svg>
     </AbsoluteFill>
   );
 };
