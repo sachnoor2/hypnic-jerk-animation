@@ -1,4 +1,4 @@
-import { AbsoluteFill, useCurrentFrame, spring, interpolate } from 'remotion';
+import { AbsoluteFill, useCurrentFrame, spring, interpolate, Audio, staticFile } from 'remotion';
 import React from 'react';
 
 // ═══════════════════════════════════════════════════════════════
@@ -883,6 +883,7 @@ export const AnimationScene: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ background: BG }}>
+      <Audio src={staticFile('audio.mp3')} />
       <svg
         width={W}
         height={H}
