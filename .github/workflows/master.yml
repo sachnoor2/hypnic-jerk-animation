@@ -21,7 +21,7 @@ jobs:
         run: npm install
 
       - name: Render video
-        uses: remotion-dev/github-action@v1
+        uses: remotion-dev/render-video@v1
         with:
           entry-point: src/index.ts
           composition-id: HypnicJerk
