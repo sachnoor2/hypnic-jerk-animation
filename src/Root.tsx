@@ -1,13 +1,13 @@
 import React from 'react';
 import { Composition } from 'remotion';
-import { HypnicJerk } from './HypnicJerk';
+import { AnimationScene } from './HypnicJerk';
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
       <Composition
         id='HypnicJerk'
-        component={HypnicJerk}
+        component={AnimationScene}
         durationInFrames={2700}
         fps={60}
         width={1080}
