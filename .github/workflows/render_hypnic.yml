@@ -9,7 +9,7 @@ on:
 jobs:
   render:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
 
@@ -23,26 +23,15 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y ffmpeg
 
-      - name: Create project structure
-        run: |
-          mkdir -p src public
-          echo '{"dependencies": {"remotion": "4.0.12", "react": "18.2.0", "react-dom": "18.2.0", "@remotion/cli": "4.0.12", "lucide-react": "0.284.0"}}' > package.json
-          echo '{"compilerOptions": {"target": "ESNext", "module": "ESNext", "moduleResolution": "Node", "jsx": "react-jsx", "lib": ["DOM", "DOM.Iterable", "ESNext"], "allowJs": true, "skipLibCheck": true, "esModuleInterop": true, "allowSyntheticDefaultImports": true, "strict": true, "forceConsistentCasingInFileNames": true, "isolatedModules": true, "noEmit": true}}' > tsconfig.json
-          echo "import { registerRoot } from 'remotion'; import { RemotionRoot } from './Root'; registerRoot(RemotionRoot);" > src/index.ts
-          echo "import React from 'react'; import { Composition } from 'remotion'; import { HypnicJerk } from './HypnicJerk'; export const RemotionRoot: React.FC = () => ( <Composition id='HypnicJerk' component={HypnicJerk} durationInFrames={2700} fps={60} width={1080} height={1920} /> );" > src/Root.tsx
-
-      - name: Download Assets
-        run: |
-          curl -L -o src/HypnicJerk.tsx https://share.zapia.com/4f2nv8c4f3t64lp3zlfapb
-          curl -L -o public/audio.mp3 https://share.zapia.com/gd40z4ey71o0v8lz1psvpx
-
       - name: Install Node Deps
-        run: npm install
+        run: |
+          npm install
+          npx remotion browser ensure
 
       - name: Render Video
         run: |
           mkdir -p out
-          npx remotion render --log=info HypnicJerk out/HypnicJerk_Final.mp4
+          npx remotion render HypnicJerk out/HypnicJerk_Final.mp4 --no-sandbox
         env:
           REMOTION_ALLOW_EVAL: true
 
