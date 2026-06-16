@@ -18,14 +18,14 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm install
+          npx remotion browser install
 
       - name: Render video
-        uses: remotion-dev/render-video@v1
-        with:
-          entry-point: src/index.ts
-          composition-id: HypnicJerk
-          output-location: out/hypnic_jerk_final.mp4
+        run: |
+          mkdir -p out
+          npx remotion render HypnicJerk out/hypnic_jerk_final.mp4 --no-sandbox
         env:
           REMOTION_ALLOW_EVAL: true
 
