@@ -17,10 +17,15 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install System Deps
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+
       - name: Install dependencies
         run: |
           npm install
-          npx remotion browser install
+          npx remotion browser ensure
 
       - name: Render video
         run: |
